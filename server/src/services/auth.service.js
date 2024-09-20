@@ -37,7 +37,7 @@ export const loginUser = async (email, password) => {
     } else {
       return "Invalid password";
     }
-  } catch (error) {
+  } catch (err) {
     throw new Error("An error occurred while trying to log in");
   }
 };

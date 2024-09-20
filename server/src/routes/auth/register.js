@@ -8,10 +8,12 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/", register, async (req, res) => {
+  const { firstName, lastName } = req;
+  
   try {
     res
       .status(201)
-      .json({ message: `User ${req.username} created successfully` });
+      .json({ message: `User ${firstName} ${lastName} created successfully` });
   } catch (err) {
     res
       .status(500)

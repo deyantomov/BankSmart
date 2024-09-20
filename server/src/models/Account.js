@@ -1,26 +1,26 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+const accountSchema = new mongoose.Schema(
   {
-    email: {
-      type: "string",
-      required: true,
-      unique: true,
-    },
-    password: {
+    accountId: {
       type: "string",
       required: true,
     },
-    firstName: {
+    holder: {
       type: "string",
       required: true,
     },
-    lastName: {
+    type: {
       type: "string",
       required: true,
     },
-    accounts: {
-      type: [String],
+    currency: {
+      type: "string",
+      required: true,
+    },
+    balance: {
+      type: "number",
+      required: true,
     },
   },
   {
@@ -28,6 +28,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+const Account = mongoose.model("Account", accountSchema);
 
-export default User;
+export default Account;

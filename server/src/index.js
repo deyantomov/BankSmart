@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectToMongoDB from "./db/connect.js";
+import router from "./routes/index.js";
 
 const app = express();
 
@@ -22,6 +23,8 @@ try {
 } catch (err) {
   console.error(err);
 }
+
+app.use("/api", router);
 
 app.listen(port, async () => {
   try {

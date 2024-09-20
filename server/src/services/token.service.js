@@ -6,11 +6,13 @@ dotenv.config();
 const jwtSecretKey = process.env.JWT_SECRET || "";
 
 export function generateToken(username) {
-  let data = {
+  const timeNow = Math.floor(Date.now() / 1000);  // must be in seconds since Unix epoch (1/1/1970)
+  
+  const data = {
     iss: "BankSmart", // issuer
     name: username, // holder
-    iat: new Date(), // issued at
-    exp: new Date() + 3600, // expires after one hour
+    iat: timeNow, // issued at
+    exp: timeNow + 3600, // expires after one hour
   };
 
   const token = jwt.sign(data, jwtSecretKey);

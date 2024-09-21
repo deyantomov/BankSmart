@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const accountSchema = new mongoose.Schema(
   {
@@ -19,7 +19,7 @@ const accountSchema = new mongoose.Schema(
       required: true,
     },
     balance: {
-      type: "number",
+      type: Schema.Types.Decimal128,
       required: true,
     },
   },

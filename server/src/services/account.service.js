@@ -44,8 +44,59 @@ export const createNewAccount = async (email, accountType, currency) => {
     await session.abortTransaction();
     throw new Error("Couldn't create an account");
   } finally {
-    session.endSession();
+    await session.endSession();
   }
 
   return accountId;
+};
+
+export const transferFunds = async (emailSender, emailReceiver, amount) => {
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    const senderBalance = Number((await Account.findOne(
+      { holder: emailSender },
+      {
+        _id: 0,
+        balance: 1
+      }
+    ))["balance"]);
+    
+    if (!(senderBalance >= amount)) {
+      throw new Error("Insufficient funds");
+    }
+
+    //  decrement sender balance by amount
+    await Account.findOneAndUpdate(
+      { holder: emailSender },
+      {
+        $inc: {
+          balance: -amount
+        },
+      },
+      { session }
+    );
+
+    //  increment receiver balance by amount
+    await Account.findOneAndUpdate(
+      { holder: emailReceiver },
+      {
+        $inc: {
+          balance: amount
+        },
+      },
+      { session }
+    );
+
+    await session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
+    throw new Error(err.message);
+  } finally {
+    await session.endSession();
+  }
+
+  return true;
 };

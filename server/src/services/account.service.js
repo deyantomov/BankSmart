@@ -50,14 +50,14 @@ export const createNewAccount = async (email, accountType, currency) => {
   return accountId;
 };
 
-export const transferFunds = async (emailSender, emailReceiver, amount) => {
+export const transferFunds = async (senderId, receiverId, amount) => {
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
 
     const senderBalance = Number((await Account.findOne(
-      { holder: emailSender },
+      { accountId: senderId },
       {
         _id: 0,
         balance: 1
@@ -70,7 +70,7 @@ export const transferFunds = async (emailSender, emailReceiver, amount) => {
 
     //  decrement sender balance by amount
     await Account.findOneAndUpdate(
-      { holder: emailSender },
+      { accountId: senderId },
       {
         $inc: {
           balance: -amount
@@ -81,7 +81,7 @@ export const transferFunds = async (emailSender, emailReceiver, amount) => {
 
     //  increment receiver balance by amount
     await Account.findOneAndUpdate(
-      { holder: emailReceiver },
+      { accountId: receiverId },
       {
         $inc: {
           balance: amount

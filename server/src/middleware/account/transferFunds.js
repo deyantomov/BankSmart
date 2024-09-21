@@ -15,14 +15,14 @@ export async function transfer(req, res, next) {
     res.status(401).json({ message: err.message }); // invalid token
   }
 
-  const { emailSender, emailReceiver, amount } = req.body;
+  const { senderId, receiverId, amount } = req.body;
 
-  if (!(emailSender && emailReceiver && amount)) {
+  if (!(senderId && receiverId && amount)) {
     return res.status(400).json({ message: "All fields required" });
   }
 
   try {
-    const isTransactionComplete = await transferFunds(emailSender, emailReceiver, amount);
+    const isTransactionComplete = await transferFunds(senderId, receiverId, amount);
     
     if (!isTransactionComplete) {
       res.status(500).json({ message: "Couldn't complete transaction "});

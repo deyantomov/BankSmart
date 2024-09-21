@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import Account from "../models/Account.js";
 import User from "../models/User.js";
+import Account from "../models/Account.js";
+import Transfer from "../models/Transfer.js";
 import generateAccountId from "../helpers/generateAccountId.js";
 
 export const createNewAccount = async (email, accountType, currency) => {
@@ -56,14 +57,18 @@ export const transferFunds = async (senderId, receiverId, amount) => {
   try {
     session.startTransaction();
 
-    const senderBalance = Number((await Account.findOne(
-      { accountId: senderId },
-      {
-        _id: 0,
-        balance: 1
-      }
-    ))["balance"]);
-    
+    const senderBalance = Number(
+      (
+        await Account.findOne(
+          { accountId: senderId },
+          {
+            _id: 0,
+            balance: 1,
+          }
+        )
+      )["balance"]
+    );
+
     if (!(senderBalance >= amount)) {
       throw new Error("Insufficient funds");
     }
@@ -73,7 +78,7 @@ export const transferFunds = async (senderId, receiverId, amount) => {
       { accountId: senderId },
       {
         $inc: {
-          balance: -amount
+          balance: -amount,
         },
       },
       { session }
@@ -84,11 +89,47 @@ export const transferFunds = async (senderId, receiverId, amount) => {
       { accountId: receiverId },
       {
         $inc: {
-          balance: amount
+          balance: amount,
         },
       },
       { session }
     );
+
+    //  save to transfer history
+    const transferInfo = new Transfer({
+      senderId,
+      receiverId,
+      amount,
+    });
+
+    await transferInfo.save({ session });
+
+    const transferId = transferInfo._id;
+    const [sender, receiver] = await Promise.all([
+      (await Account.findOne({ accountId: senderId }))["holder"],
+      (await Account.findOne({ accountId: receiverId }))["holder"],
+    ]);
+
+    await Promise.all([
+      await User.findOneAndUpdate(
+        { email: sender },
+        {
+          $push: {
+            transactions: transferId,
+          },
+        },
+        { session }
+      ),
+      await User.findOneAndUpdate(
+        { email: receiver },
+        {
+          $push: {
+            transactions: transferId,
+          },
+        },
+        { session }
+      ),
+    ]);
 
     await session.commitTransaction();
   } catch (err) {

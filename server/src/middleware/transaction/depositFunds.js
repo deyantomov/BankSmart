@@ -1,4 +1,4 @@
-import { depositFunds } from "../../services/account.service.js";
+import { depositFunds } from "../../services/transaction.service.js";
 import { validateToken } from "../../services/token.service.js";
 
 export async function deposit(req, res, next) {

@@ -1,15 +1,15 @@
 import express from "express";
-import { deposit } from "../../middleware/account/depositFunds.js";
+import { withdraw } from "../../middleware/transaction/withdrawFunds.js";
 
 const router = express.Router();
 
 router.get("/test", (req, res) => {
-  res.status(200).json("test ok: deposit funds");
+  res.status(200).json("test ok: withdraw funds");
 });
 
-router.post("/", deposit, async (req, res) => {
+router.post("/", withdraw, async (req, res) => {
   try {
-    res.status(200).json({ message: "Deposit complete", amt: req.amt });
+    res.status(200).json({ message: "Withdraw complete", amt: req.amt });
   } catch (err) {
     res
       .status(500)

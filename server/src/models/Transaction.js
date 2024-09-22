@@ -1,22 +1,24 @@
 import mongoose, { Schema } from "mongoose";
 
-const transferSchema = new mongoose.Schema(
+const transactionSchema = new mongoose.Schema(
   {
+    accountId: {
+      type: "string"
+    },
     senderId: {
       type: "string",
-      required: true,
     },
     receiverId: {
       type: "string",
-      required: true,
+    },
+    currency: {
+      type: "string",
     },
     senderCurrency: {
       type: "string",
-      required: true,
     },
     receiverCurrency: {
       type: "string",
-      required: true,
     },
     originalAmount: {
       type: Schema.Types.Decimal128,
@@ -24,12 +26,15 @@ const transferSchema = new mongoose.Schema(
     },
     convertedAmount: {
       type: Schema.Types.Decimal128,
-      required: true,
     },
+    type: {
+      type: "string",
+      required: true,
+    }
   },
   { timestamps: true }
 );
 
-const Transfer = mongoose.model("Transfer", transferSchema);
+const Transaction = mongoose.model("Transaction", transactionSchema);
 
-export default Transfer;
+export default Transaction;

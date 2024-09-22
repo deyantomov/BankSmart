@@ -1,5 +1,5 @@
 import express from "express";
-import { transfer } from "../../middleware/account/transferFunds.js";
+import { transfer } from "../../middleware/transaction/transferFunds.js";
 
 const router = express.Router();
 

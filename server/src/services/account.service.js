@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import User from "../models/User.js";
 import Account from "../models/Account.js";
 import Transfer from "../models/Transfer.js";
+import Deposit from "../models/Deposit.js";
+import Withdrawal from "../models/Withdrawal.js";
 import generateAccountId from "../helpers/generateAccountId.js";
 
 export const createNewAccount = async (email, accountType, currency) => {
@@ -130,6 +132,90 @@ export const transferFunds = async (senderId, receiverId, amount) => {
         { session }
       ),
     ]);
+
+    await session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
+    throw new Error(err.message);
+  } finally {
+    await session.endSession();
+  }
+
+  return true;
+};
+
+export const depositFunds = async (accountId, amount) => {
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    await Account.findOneAndUpdate(
+      { accountId },
+      {
+        $inc: {
+          balance: amount,
+        },
+      },
+      { session }
+    );
+
+    const deposit = new Deposit({
+      accountId,
+      amount,
+    });
+
+    await deposit.save({ session });
+
+    await session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
+    throw new Error(err.message);
+  } finally {
+    await session.endSession();
+  }
+
+  return true;
+};
+
+export const withdrawFunds = async (accountId, amount) => {
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    const accountBalance = Number(
+      (
+        await Account.findOne(
+          { accountId },
+          {
+            _id: 0,
+            balance: 1,
+          }
+        )
+      )["balance"]
+    );
+
+    if (!(accountBalance >= amount)) {
+      throw new Error("Insufficient funds");
+    }
+
+    await Account.findOneAndUpdate(
+      { accountId },
+      {
+        $inc: {
+          balance: -amount,
+        },
+      },
+      { session }
+    );
+
+    const withdrawal = new Withdrawal({
+      accountId,
+      amount,
+    });
+
+    await withdrawal.save({ session });
 
     await session.commitTransaction();
   } catch (err) {

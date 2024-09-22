@@ -1,7 +1,7 @@
-import { withdrawFunds } from "../../services/account.service.js";
+import { transferFunds } from "../../services/transaction.service.js";
 import { validateToken } from "../../services/token.service.js";
 
-export async function withdraw(req, res, next) {
+export async function transfer(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -15,20 +15,19 @@ export async function withdraw(req, res, next) {
     res.status(401).json({ message: err.message }); // invalid token
   }
 
-  const { accountId, amount } = req.body;
+  const { senderId, receiverId, amount } = req.body;
 
-  if (!(accountId && amount)) {
-    return res.status(400).json({ message: "All fields required" });
+  if (!(senderId && receiverId && amount)) {
+    res.status(400).json({ message: "All fields required" });
   }
 
   try {
-    const isWithdrawalComplete = await withdrawFunds(accountId, amount);
-
-    if (!isWithdrawalComplete) {
-      res.status(500).json({ message: "Couldn't withdraw funds " });
+    const isTransactionComplete = await transferFunds(senderId, receiverId, amount);
+    
+    if (!isTransactionComplete) {
+      res.status(500).json({ message: "Couldn't complete transaction "});
     }
 
-    req.amt = amount;
     next();
   } catch (err) {
     res

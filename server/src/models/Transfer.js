@@ -10,7 +10,19 @@ const transferSchema = new mongoose.Schema(
       type: "string",
       required: true,
     },
-    amount: {
+    senderCurrency: {
+      type: "string",
+      required: true,
+    },
+    receiverCurrency: {
+      type: "string",
+      required: true,
+    },
+    originalAmount: {
+      type: Schema.Types.Decimal128,
+      required: true,
+    },
+    convertedAmount: {
       type: Schema.Types.Decimal128,
       required: true,
     },

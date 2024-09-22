@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema(
     lastName: {
       type: "string",
       required: true,
+    },
+    accounts: {
+      type: [String],
+      default: [],
+    },
+    transactions: {
+      type: [Schema.ObjectId],
+      default: [],
     },
   },
   {

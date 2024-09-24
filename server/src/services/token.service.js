@@ -10,7 +10,7 @@ export function generateToken(email) {
 
   const data = {
     iss: "BankSmart", // issuer
-    name: email, // holder
+    email: email, // holder
     iat: timeNow, // issued at
     exp: timeNow + 3600, // expires after one hour
   };

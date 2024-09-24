@@ -50,7 +50,13 @@ export const createNewAccount = async (email, accountType, currency) => {
   return accountId;
 };
 
-export const getAccountData = async (accountId) => {
+export const getAccountData = async (accountId, email) => {
+  const account = await Account.findOne({ accountId });
+
+  if (account.holder !== email) {
+    throw new Error("Access denied");
+  }
+  
   return await Account.aggregate([
     {
       $match: {

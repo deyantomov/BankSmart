@@ -5,14 +5,16 @@ export async function getUser(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    res.status(401).json({ message: "No token provided" });
+    return res.status(401).json({ message: "No token provided" });
   }
+
+  let decodedToken;
 
   try {
     const token = authorization.split(" ")[1];
-    validateToken(token);
+    decodedToken = validateToken(token);
   } catch (err) {
-    res.status(401).json({ message: err.message }); // invalid token
+    return res.status(401).json({ message: err.message }); // invalid token
   }
 
   const { email } = req.body;
@@ -22,16 +24,20 @@ export async function getUser(req, res, next) {
   }
 
   try {
-    const userData = await getUserData(email);
+    const userData = await getUserData(email, decodedToken.email);
     
     if (!userData) {
-      res.status(500).json({ message: "Couldn't find account "});
+      return res.status(500).json({ message: "Couldn't find account "});
     }
 
     req.userData = userData;
     next();
   } catch (err) {
-    res
+    if (err.message === "Access denied") {
+      return res.status(403).json({ message: err.message });
+    }
+
+    return res
       .status(500)
       .json({ message: "Internal server error", err: err.message });
   }

@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 
-export const getUserData = async (email) => {
-  return await User.findOne(
+export const getUserData = async (email, tokenBearerEmail) => {
+  const user = await User.findOne(
     { email },
     {
       _id: 0,
@@ -9,4 +9,10 @@ export const getUserData = async (email) => {
       __v: 0,
     }
   );
+  
+  if (user.email !== tokenBearerEmail) {
+    throw new Error("Access denied");
+  }
+
+  return user;
 };

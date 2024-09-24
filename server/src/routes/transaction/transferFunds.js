@@ -1,4 +1,5 @@
 import express from "express";
+import { validateJWT } from "../../middleware/auth/validateJWT.js";
 import { transfer } from "../../middleware/transaction/transferFunds.js";
 
 const router = express.Router();
@@ -7,7 +8,7 @@ router.get("/test", (req, res) => {
   res.status(200).json("test ok: transfer funds");
 });
 
-router.post("/", transfer, async (req, res) => {
+router.post("/", validateJWT, transfer, async (req, res) => {
   try {
     res
       .status(200)

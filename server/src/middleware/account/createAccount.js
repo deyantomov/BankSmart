@@ -1,20 +1,6 @@
 import { createNewAccount } from "../../services/account.service.js";
-import { validateToken } from "../../services/token.service.js";
 
 export async function createAccount(req, res, next) {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    res.status(401).json({ message: "No token provided" });
-  }
-
-  try {
-    const token = authorization.split(" ")[1];
-    validateToken(token);
-  } catch (err) {
-    res.status(401).json({ message: err.message }); // invalid token
-  }
-
   const { email, accountType, currency } = req.body;
 
   if (!(email && accountType && currency)) {

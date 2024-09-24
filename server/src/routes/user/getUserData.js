@@ -1,4 +1,5 @@
 import express from "express";
+import { validateJWT } from "../../middleware/auth/validateJWT.js";
 import { getUser } from "../../middleware/user/getUser.js";
 
 const router = express.Router();
@@ -7,7 +8,7 @@ router.get("/test", (req, res) => {
   res.status(200).json("test ok: get user data");
 });
 
-router.get("/", getUser, async (req, res) => {  
+router.get("/", validateJWT, getUser, async (req, res) => {  
   try {
     res
       .status(200)

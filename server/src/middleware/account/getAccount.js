@@ -1,23 +1,7 @@
-import User from "../../models/User.js";
 import { getAccountData } from "../../services/account.service.js";
-import { validateToken } from "../../services/token.service.js";
 
 export async function getAccount(req, res, next) {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  let decodedToken;
-
-  try {
-    const token = authorization.split(" ")[1];
-    decodedToken = validateToken(token);
-  } catch (err) {
-    return res.status(401).json({ message: err.message }); // invalid token
-  }
-
+  const { user } = req;
   const { accountId } = req.body;
 
   if (!accountId) {
@@ -25,7 +9,7 @@ export async function getAccount(req, res, next) {
   }
 
   try {
-    const accountData = await getAccountData(accountId, decodedToken.email); //  pass the email to check if the holder of the account is the holder of the token
+    const accountData = await getAccountData(accountId, user.email); //  pass the email to check if the holder of the account is the holder of the token
 
     if (!accountData) {
       return res.status(500).json({ message: "Couldn't find account " });

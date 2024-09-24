@@ -115,7 +115,13 @@ export const transferFunds = async (senderId, receiverId, amount) => {
   return true;
 };
 
-export const depositFunds = async (accountId, amount) => {
+export const depositFunds = async (accountId, amount, tokenBearerEmail) => {
+  const { holder } = await Account.findOne({ accountId });
+
+  if (holder !== tokenBearerEmail) {
+    throw new Error("Access denied");
+  }
+  
   const session = await mongoose.startSession();
 
   try {
@@ -150,7 +156,13 @@ export const depositFunds = async (accountId, amount) => {
   return true;
 };
 
-export const withdrawFunds = async (accountId, amount) => {
+export const withdrawFunds = async (accountId, amount, tokenBearerEmail) => {
+  const { holder } = await Account.findOne({ accountId });
+
+  if (holder !== tokenBearerEmail) {
+    throw new Error("Access denied");
+  }
+  
   const session = await mongoose.startSession();
 
   try {

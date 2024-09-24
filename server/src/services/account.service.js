@@ -50,4 +50,28 @@ export const createNewAccount = async (email, accountType, currency) => {
   return accountId;
 };
 
-
+export const getAccountData = async (accountId) => {
+  return await Account.aggregate([
+    {
+      $match: {
+        accountId,
+      },
+    },
+    {
+      $set: {
+        balance: {
+          $convert: {
+            input: "$balance",
+            to: "double",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        __v: 0,
+      },
+    },
+  ]);
+};

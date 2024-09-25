@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux";
 import { saveToken } from "../../features/user/userSlice";
 import { Card, Input, Button } from "react-daisyui";
 import { login } from "../../routes/auth";
+import withNavigation from "../../layouts/withNavigation/withNavigation";
 
-export default function Login() {
+function Login() {
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
@@ -86,3 +87,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default withNavigation(Login);

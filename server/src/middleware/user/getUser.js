@@ -2,7 +2,7 @@ import { getUserData } from "../../services/user.service.js";
 
 export async function getUser(req, res, next) {
   const { user } = req;
-  const { email } = req.body;
+  const { email } = req.query;
 
   if (!email) {
     return res.status(400).json({ message: "Email is required" });

@@ -1,9 +1,8 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { saveToken } from "../../features/user/userSlice";
+import useLogin from "../../hooks/useLogin";
+import useSaveUserData from "../../hooks/useSaveUserData";
 import { Card, Input, Button } from "react-daisyui";
-import { login } from "../../routes/auth";
 import withNavigation from "../../layouts/withNavigation/withNavigation";
 
 function Login() {
@@ -11,9 +10,9 @@ function Login() {
     email: "",
     password: "",
   });
-  
   const { state: locationState } = useLocation();
-  const dispatch = useDispatch();
+  const login = useLogin();
+  const saveUserData = useSaveUserData();
 
   useEffect(() => {
     if (locationState && locationState.email) {
@@ -32,13 +31,12 @@ function Login() {
 
   const handleSubmitForm = async () => {
     try {
-      const { token } = await login(
-        loginFormData.email,
-        loginFormData.password
-      );
-      dispatch(saveToken(token));
+      const token = await login(loginFormData.email, loginFormData.password);
+      
+      if (token) {
+        await saveUserData(loginFormData.email, token);
+      }
     } catch (err: any) {
-      console.log(err);
       alert(err);
     }
   };

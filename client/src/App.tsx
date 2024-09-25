@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import { store } from "./app/store";
+import { persistor, store } from "./app/store";
 import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react';
 import Login from "./views/Login/Login";
 import Register from "./views/Register/Register";
 import Dashboard from "./views/Dashboard/Dashboard";
@@ -10,7 +11,9 @@ import NotFound from "./views/NotFound/NotFound";
 function ProvidedApp() {
   return (
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   );
 }

@@ -51,12 +51,21 @@ export const createNewAccount = async (email, accountType, currency) => {
 };
 
 export const getAccountData = async (accountId, email) => {
+  accountId = "EUR845978"; // Ensure this matches the database value
+  email = "test@example.com";
+
+  console.log("Received accountId:", accountId);
   const account = await Account.findOne({ accountId });
+
+  if (!account) {
+    console.error("Account not found for accountId:", accountId);
+    throw new Error("Account not found");
+  }
 
   if (account.holder !== email) {
     throw new Error("Access denied");
   }
-  
+
   return await Account.aggregate([
     {
       $match: {

@@ -18,14 +18,22 @@ export const getUserData = async (email: string, token: string): Promise<UserDat
     throw new Error("Email not provided");
   }
 
-  const requestData = {
+  if (!token) {
+    throw new Error("Token not provided");
+  }
+
+  const headers = {
     authorization: `Bearer ${token}`,
+  };
+
+  const params = {
+    email
   };
 
   try {
     const data = await axios.get(endpointBuilder("getUserData"), {
-      headers: requestData,
-      params: { email },
+      headers,
+      params,
     }) as UserData;
 
     return data;

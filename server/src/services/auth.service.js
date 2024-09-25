@@ -26,7 +26,7 @@ export const loginUser = async (email, password) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw new Error("User not found");
+      return "Invalid email or password";
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
@@ -35,7 +35,7 @@ export const loginUser = async (email, password) => {
       const token = generateToken(email);
       return token;
     } else {
-      return "Invalid password";
+      return "Invalid email or password";
     }
   } catch (err) {
     throw new Error("An error occurred while trying to log in");

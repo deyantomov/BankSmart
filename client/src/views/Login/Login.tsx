@@ -44,8 +44,15 @@ export default function Login() {
 
   return (
     <div className="flex w-full h-full justify-center items-center px-4 sm:px-0">
-      <Card className="flex w-full sm:w-5/6 md:w-4/6 h-4/6 rounded-md shadow-xl border justify-center p-2 px-12 sm:px-2">
-        <div className="flex flex-col gap-4 w-full sm:w-1/2 h-full justify-center items-center text-start">
+      <Card
+        className="flex w-full sm:w-5/6 md:w-4/6 h-4/6 shadow-xl border justify-center p-2 px-12 sm:px-2 rounded-none"
+        style={{
+          backgroundImage: "url(./auth-bg.jpg)",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}  
+      >
+        <div className="flex flex-col gap-4 w-full sm:w-3/4 h-full justify-center items-center text-start bg-white/80 p-4">
           <h1 className="text-center text-5xl mb-8 w-full">Login</h1>
           <Input
             type="text"

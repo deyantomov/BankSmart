@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 import useSaveUserData from "../../hooks/useSaveUserData";
 import useSaveAccountData from "../../hooks/useSaveAccountData";
@@ -11,6 +11,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
   const { state: locationState } = useLocation();
   const login = useLogin();
   const saveUserData = useSaveUserData();
@@ -41,6 +42,8 @@ function Login() {
         for await (const account of data.accounts) {
           await saveAccountData(account, token);
         }
+
+        navigate("/dashboard");
       }
     } catch (err: any) {
       console.log(err);

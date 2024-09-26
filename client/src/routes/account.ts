@@ -15,7 +15,7 @@ export const getAccountData = async (accountId: string, token: string) => {
   if (!accountId) {
     throw new Error("Account ID not provided");
   }
-  
+
   if (!token) {
     throw new Error("Token not provided");
   }
@@ -25,7 +25,7 @@ export const getAccountData = async (accountId: string, token: string) => {
   };
 
   const params = {
-    accountId
+    accountId,
   };
 
   try {
@@ -38,4 +38,24 @@ export const getAccountData = async (accountId: string, token: string) => {
   } catch (err: any) {
     throw new Error(err.message);
   }
-}
+};
+
+export const getUserAccounts = async (token: string): Promise<any> => {
+  if (!token) {
+    throw new Error("Token not provided");
+  }
+
+  const headers = {
+    authorization: `Bearer ${token}`,
+  };
+
+  try {
+    const { data } = await axios.get(endpointBuilder("getUserAccounts"), {
+      headers,
+    });
+
+    return data;
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+};

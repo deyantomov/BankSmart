@@ -25,12 +25,15 @@ export const accountDataSlice = createSlice({
     saveAccountData: (state, action: PayloadAction<AccountData>) => {
       state.accounts.push(action.payload);
     },
+    saveUserAccounts: (state, action: PayloadAction<Array<AccountData>>) => {
+      state.accounts = action.payload;
+    },
     clearAccountData: (state) => {
       state.accounts = [];
     }
   },
 });
 
-export const { saveAccountData, clearAccountData } = accountDataSlice.actions;
+export const { saveAccountData, saveUserAccounts, clearAccountData } = accountDataSlice.actions;
 
 export default accountDataSlice.reducer;

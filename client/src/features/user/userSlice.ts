@@ -38,10 +38,20 @@ export const userSlice = createSlice({
       state.transactions = action.payload.data.transactions;
       state.createdAt = action.payload.data.createdAt;
       state.updatedAt = action.payload.data.updatedAt;
+    },
+    clearUserData: (state) => {
+      state.token = initialState.token;
+      state.email = initialState.email;
+      state.firstName = initialState.firstName;
+      state.lastName = initialState.lastName;
+      state.accounts = initialState.accounts;
+      state.transactions = initialState.transactions;
+      state.createdAt = initialState.createdAt;
+      state.updatedAt = initialState.updatedAt;
     }
   },
 });
 
-export const { saveToken, saveUserData } = userSlice.actions;
+export const { saveToken, saveUserData, clearUserData } = userSlice.actions;
 
 export default userSlice.reducer;

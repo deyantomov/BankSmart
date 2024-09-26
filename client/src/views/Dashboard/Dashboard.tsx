@@ -1,9 +1,12 @@
 import withNavigation from "../../layouts/withNavigation/withNavigation";
+import AccountTile from "../../components/tiles/AccountTile";
+import UserDetails from "../../components/tiles/UserDetails";
 
 function Dashboard() {
   return (
-    <div className="flex justify-center items-center w-full h-full">
-      <h1 className="text-3xl">Dashboard</h1>
+    <div className="flex flex-col w-full h-full">
+      <AccountTile />
+      <UserDetails />
     </div>
   )
 }

@@ -1,20 +1,20 @@
 import express from "express";
 import { validateJWT } from "../../middleware/auth/validateJWT.js";
-import { getAccount } from "../../middleware/account/getAccount.js";
+import { getUserAccounts } from "../../middleware/account/getUserAccounts.js";
 
 const router = express.Router();
 
 router.get("/test", (req, res) => {
-  res.status(200).json("test ok: get account data");
+  return res.status(200).json("test ok: get user accounts");
 });
 
-router.get("/", validateJWT, getAccount, async (req, res) => {
+router.get("/", validateJWT, getUserAccounts, async (req, res) => {
   try {
-    res
+    return res
       .status(200)
       .json({ data: req.accountData });
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: "Internal server error", err: err.message });
   }

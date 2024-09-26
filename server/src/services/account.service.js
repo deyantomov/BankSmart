@@ -51,13 +51,13 @@ export const createNewAccount = async (email, accountType, currency) => {
 };
 
 export const getAccountData = async (accountId, email) => {
-  const account = await Account.findOne({ accountId });
+  const { holder } = await Account.findOne({ accountId });
 
-  if (!account) {
+  if (!holder) {
     throw new Error("Account not found");
   }
 
-  if (account.holder !== email) {
+  if (holder !== email) {
     throw new Error("Access denied");
   }
 
@@ -84,4 +84,36 @@ export const getAccountData = async (accountId, email) => {
       },
     },
   ]);
+};
+
+export const getUserAccountData = async (email) => {
+  const { accounts } = await User.findOne({ email });
+
+  if (!accounts) return;
+
+  const allAccounts = await Account.aggregate([
+    {
+      $match: {
+        holder: email,
+      },
+    },
+    {
+      $set: {
+        balance: {
+          $convert: {
+            input: "$balance",
+            to: "double",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        __v: 0,
+      },
+    },
+  ])
+
+  return allAccounts;
 };

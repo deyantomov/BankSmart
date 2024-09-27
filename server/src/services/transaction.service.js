@@ -148,10 +148,8 @@ export const depositFunds = async (accountId, amount, tokenBearerEmail) => {
     });
 
     await transaction.save({ session });
-    console.log(`Transaction saved: ${transaction._id}`);
 
-    // Save transaction id to user document
-    const userUpdateResult = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       {
         email: tokenBearerEmail,
       },
@@ -160,10 +158,8 @@ export const depositFunds = async (accountId, amount, tokenBearerEmail) => {
           transactions: transaction._id,
         },
       },
-      { session, new: true }
+      { session }
     );
-
-    console.log(`User update result: ${JSON.stringify(userUpdateResult)}`);
 
     await session.commitTransaction();
   } catch (err) {
@@ -224,7 +220,7 @@ export const withdrawFunds = async (accountId, amount, tokenBearerEmail) => {
 
     await User.findOneAndUpdate(
       {
-        holder: tokenBearerEmail,
+        email: tokenBearerEmail,
       },
       {
         $push: {

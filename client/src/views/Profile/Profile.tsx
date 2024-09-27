@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 import withNavigation from "../../layouts/withNavigation/withNavigation";
 
 function Profile() {
-  const { user } = useSelector((state: RootState) => state);
+  const { userData: user } = useSelector((state: RootState) => state);
 
   return (
     <div className="w-full h-full p-4">

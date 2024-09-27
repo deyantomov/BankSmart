@@ -6,7 +6,9 @@ export default function TransactionTile() {
   const { transactions } = useSelector(
     (state: RootState) => state.transactionData
   );
-
+  
+  const { userData: user } = useSelector((state: RootState) => state);
+  
   return (
     <div className="flex flex-col gap-4 w-full h-auto px-4 py-4">
       <div className="flex justify-between items-center w-full">
@@ -22,15 +24,32 @@ export default function TransactionTile() {
           <span>Amount</span>
         </Table.Head>
         <Table.Body>
-          {transactions.map((transaction, index) => (
-            <Table.Row key={index} className={`${index % 2 !== 0 && "bg-slate-200"}`}>
-              <span className="text-lg">{index + 1}</span>
-              <span>
-                {transaction.type[0].toUpperCase() + transaction.type.slice(1)}
-              </span>
-              <span>{transaction.originalAmount}</span>
-            </Table.Row>
-          ))}
+          {transactions.map((transaction, index) => {
+            let rowStyle = "";
+            
+            if (transaction.type === "deposit") {
+              rowStyle = "text-green-600";
+            } else if (transaction.type === "withdrawal") {
+              rowStyle = "text-red-600";
+            } else if (transaction.type === "transfer") {
+              rowStyle = user.accounts.includes(transaction.receiverId as string)
+                ? "text-green-600"
+                : "text-red-600";
+            }
+  
+            return (
+              <Table.Row
+                key={index}
+                className={`${index % 2 !== 0 ? "bg-slate-200" : ""} ${rowStyle}`}
+              >
+                <span className="text-lg text-black">{index + 1}</span>
+                <span>
+                  {transaction.type[0].toUpperCase() + transaction.type.slice(1)}
+                </span>
+                <span>{transaction.originalAmount}</span>
+              </Table.Row>
+            );
+          })}
         </Table.Body>
       </Table>
     </div>

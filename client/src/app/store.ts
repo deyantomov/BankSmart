@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import sessionStorage from "redux-persist/lib/storage/session";
 import userReducer from "../features/user/userSlice";
 import accountReducer from "../features/account/accountDataSlice";
+import transactionReducer from "../features/transaction/transactionDataSlice";
 
 const rootPersistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const userPersistConfig = {
 const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   accountData: accountReducer,
+  transactionData: transactionReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

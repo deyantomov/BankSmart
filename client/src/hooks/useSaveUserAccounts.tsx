@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { saveUserAccounts } from '../features/account/accountDataSlice';
-import { getUserAccounts } from '../routes/account';
+import { getUserAccounts } from '../routes/user';
 
 export default function useSaveUserAccounts(): any {
   const dispatch = useDispatch();

@@ -2,8 +2,8 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 import useSaveUserData from "../../hooks/useSaveUserData";
-// import useSaveAccountData from "../../hooks/useSaveAccountData";
 import useSaveUserAccounts from "../../hooks/useSaveUserAccounts";
+import useSaveUserTransactions from "../../hooks/useSaveUserTransactions";
 import { Card, Input, Button } from "react-daisyui";
 import withNavigation from "../../layouts/withNavigation/withNavigation";
 
@@ -16,8 +16,8 @@ function Login() {
   const { state: locationState } = useLocation();
   const login = useLogin();
   const saveUserData = useSaveUserData();
-  // const saveAccountData = useSaveAccountData();
   const saveUserAccounts = useSaveUserAccounts();
+  const saveUserTransactions = useSaveUserTransactions();
 
   useEffect(() => {
     if (locationState && locationState.email) {
@@ -40,13 +40,12 @@ function Login() {
       
       if (token) {
         await saveUserData(loginFormData.email, token);
-        
-        console.log(await saveUserAccounts(token));
+        await saveUserAccounts(token);
+        await saveUserTransactions(token);
 
         navigate("/dashboard");
       }
     } catch (err: any) {
-      console.log(err);
       alert(err);
     }
   };

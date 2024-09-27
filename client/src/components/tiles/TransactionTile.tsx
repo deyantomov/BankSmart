@@ -64,7 +64,7 @@ export default function TransactionTile() {
         <Card className="flex flex-col justify-center items-center w-full h-auto p-8 bg-slate-200 text-lg md:text-xl col-span-3">
           <h2 className="text-xl mb-6">No transactions</h2>
           <Link to="/transactions" className="flex flex-col items-center">
-            <FiPlusCircle size={32} color="grey" className="mb-1" />
+            <FiPlusCircle size={32} className="mb-1 text-success" />
             <p className="text-xs text-gray">See more information here</p>
           </Link>
         </Card>

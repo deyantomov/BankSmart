@@ -16,7 +16,7 @@ export const transferFunds = async (senderId, receiverId, amount) => {
           _id: 0,
           balance: 1,
           currency: 1,
-          holder: 1
+          holder: 1,
         }
       ),
       Account.findOne(
@@ -25,7 +25,7 @@ export const transferFunds = async (senderId, receiverId, amount) => {
           _id: 0,
           balance: 1,
           currency: 1,
-          holder: 1
+          holder: 1,
         }
       ),
     ]);
@@ -38,7 +38,11 @@ export const transferFunds = async (senderId, receiverId, amount) => {
     //  convert amount if the sender and the receiver account use different currencies
     let originalAmount = amount;
     if (sender.currency !== receiver.currency) {
-      amount = await convertCurrency(sender.currency, receiver.currency, amount);
+      amount = await convertCurrency(
+        sender.currency,
+        receiver.currency,
+        amount
+      );
     }
 
     //  start the transaction if there is sufficient balance in the sender account and after the currency is converted:
@@ -121,7 +125,7 @@ export const depositFunds = async (accountId, amount, tokenBearerEmail) => {
   if (holder !== tokenBearerEmail) {
     throw new Error("Access denied");
   }
-  
+
   const session = await mongoose.startSession();
 
   try {
@@ -139,11 +143,27 @@ export const depositFunds = async (accountId, amount, tokenBearerEmail) => {
 
     const transaction = new Transaction({
       accountId,
-      amount,
-      type: "deposit"
+      originalAmount: amount,
+      type: "deposit",
     });
 
     await transaction.save({ session });
+    console.log(`Transaction saved: ${transaction._id}`);
+
+    // Save transaction id to user document
+    const userUpdateResult = await User.findOneAndUpdate(
+      {
+        email: tokenBearerEmail,
+      },
+      {
+        $push: {
+          transactions: transaction._id,
+        },
+      },
+      { session, new: true }
+    );
+
+    console.log(`User update result: ${JSON.stringify(userUpdateResult)}`);
 
     await session.commitTransaction();
   } catch (err) {
@@ -162,7 +182,7 @@ export const withdrawFunds = async (accountId, amount, tokenBearerEmail) => {
   if (holder !== tokenBearerEmail) {
     throw new Error("Access denied");
   }
-  
+
   const session = await mongoose.startSession();
 
   try {
@@ -196,11 +216,23 @@ export const withdrawFunds = async (accountId, amount, tokenBearerEmail) => {
 
     const transaction = new Transaction({
       accountId,
-      amount,
-      type: "withdrawal"
+      originalAmount: amount,
+      type: "withdrawal",
     });
 
     await transaction.save({ session });
+
+    await User.findOneAndUpdate(
+      {
+        holder: tokenBearerEmail,
+      },
+      {
+        $push: {
+          transactions: transaction._id,
+        },
+      },
+      { session }
+    );
 
     await session.commitTransaction();
   } catch (err) {

@@ -1,17 +1,16 @@
-import { getUserAccountData } from "../../services/account.service.js";
+import { getUserTransactionHistory } from "../../services/user.service.js";
 
-export async function getUserAccounts(req, res, next) {
+export async function getUserTransactions(req, res, next) {
   const { user } = req;
 
   try {
-    //  use the email from the token
-    const accountData = await getUserAccountData(user.email);
+    const transactions = await getUserTransactionHistory(user.email);
 
-    if (!accountData) {
+    if (!transactions) {
       return res.status(500).json({ message: "Couldn't find accounts" });
     }
 
-    req.accountData = accountData;
+    req.transactions = transactions;
     next();
   } catch (err) {
     if (err.message === "Access denied") {

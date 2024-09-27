@@ -85,35 +85,3 @@ export const getAccountData = async (accountId, email) => {
     },
   ]);
 };
-
-export const getUserAccountData = async (email) => {
-  const { accounts } = await User.findOne({ email });
-
-  if (!accounts) return;
-
-  const allAccounts = await Account.aggregate([
-    {
-      $match: {
-        holder: email,
-      },
-    },
-    {
-      $set: {
-        balance: {
-          $convert: {
-            input: "$balance",
-            to: "double",
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        __v: 0,
-      },
-    },
-  ])
-
-  return allAccounts;
-};

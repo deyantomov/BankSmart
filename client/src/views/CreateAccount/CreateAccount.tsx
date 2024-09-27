@@ -1,5 +1,8 @@
 import { useRef } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import useCreateAccount from "../../hooks/useCreateAccount";
 import withNavigation from "../../layouts/withNavigation/withNavigation";
 import { Select, Button } from "react-daisyui";
 import { FiArrowLeft } from "react-icons/fi";
@@ -8,6 +11,8 @@ function CreateAccount() {
   const typeRef = useRef<HTMLSelectElement>(null);
   const currencyRef = useRef<HTMLSelectElement>(null);
   const { state } = useLocation();
+  const { token } = useSelector((state: RootState) => state.userData);
+  const createAccount = useCreateAccount();
 
   const handleCreateAccount = async () => {
     if (!(typeRef.current && currencyRef.current)) {
@@ -23,8 +28,12 @@ function CreateAccount() {
       return;
     }
 
-    //  TODO: Create a hook that sends a request to create a new account and save in account slice
-    alert(`${type} ${currency}`);
+    try {
+      const { message } = await createAccount(token, type, currency);
+      alert(message);
+    } catch (err: any) {
+      alert(err.message);
+    }
   }
   
   return (

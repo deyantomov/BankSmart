@@ -8,6 +8,7 @@ import Dashboard from "./views/Dashboard/Dashboard";
 import Protected from "./components/Protected/Protected";
 import Profile from "./views/Profile/Profile";
 import CreateAccount from "./views/CreateAccount/CreateAccount";
+import Transactions from "./views/Transactions/Transactions";
 import NotFound from "./views/NotFound/NotFound";
 
 function ProvidedApp() {
@@ -46,6 +47,14 @@ function App() {
         element={
           <Protected>
             <CreateAccount />
+          </Protected>
+        }
+      />
+      <Route
+        path="/transactions"
+        element={
+          <Protected>
+            <Transactions />
           </Protected>
         }
       />

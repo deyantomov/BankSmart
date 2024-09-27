@@ -13,14 +13,24 @@ const rootPersistConfig = {
 };
 
 const userPersistConfig = {
-  key: "user",
+  key: "userData",
+  storage: sessionStorage,
+};
+
+const accountPersistConfig = {
+  key: "accountData",
+  storage: sessionStorage,
+};
+
+const transactionPersistConfig = {
+  key: "transactionData",
   storage: sessionStorage,
 };
 
 const rootReducer = combineReducers({
-  user: persistReducer(userPersistConfig, userReducer),
-  accountData: accountReducer,
-  transactionData: transactionReducer,
+  userData: persistReducer(userPersistConfig, userReducer),
+  accountData: persistReducer(accountPersistConfig, accountReducer),
+  transactionData: persistReducer(transactionPersistConfig, transactionReducer),
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

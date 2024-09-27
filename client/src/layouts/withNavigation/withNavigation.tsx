@@ -5,7 +5,7 @@ const withNavigation = (Children: React.ComponentType) => (props: any) => {
   return (
     <div className="w-full h-full flex flex-col">
       <Navigation />
-      <div className="mt-16 flex-grow">
+      <div className="mt-16 w-auto">
         <Children {...props} />
       </div>
     </div>

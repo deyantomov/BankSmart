@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export default function Protected({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
-  const token = useSelector((state: RootState) => state.user.token);
+  const { token } = useSelector((state: RootState) => state.userData);
 
   useEffect(() => {
     if (!token) {

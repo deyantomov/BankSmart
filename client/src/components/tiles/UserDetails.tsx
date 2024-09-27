@@ -27,10 +27,10 @@ export default function UserDetails() {
         <h2>First name: {user.firstName}</h2>
         <h2>Last name: {user.lastName}</h2>
         <h3>
-          Accounts: {user.accounts.reduce((acc) => ++acc, 0)}
+          Accounts: {user.accounts.length}
         </h3>
         <h3>
-          Transactions: {user.transactions.reduce((acc) => ++acc, 0)}
+          Transactions: {user.transactions.length}
         </h3>
       </Card>
     </div>

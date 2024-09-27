@@ -39,6 +39,9 @@ export const userSlice = createSlice({
       state.createdAt = action.payload.data.createdAt;
       state.updatedAt = action.payload.data.updatedAt;
     },
+    saveUserAccount: (state, action: PayloadAction<string>) => {
+      state.accounts.push(action.payload);
+    },
     clearUserData: (state) => {
       state.token = initialState.token;
       state.email = initialState.email;
@@ -52,6 +55,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { saveToken, saveUserData, clearUserData } = userSlice.actions;
+export const { saveToken, saveUserData, saveUserAccount, clearUserData } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import withNavigation from "../../layouts/withNavigation/withNavigation";
+import withNavigation from "../../hoc/withNavigation/withNavigation";
 
 function Profile() {
   const { userData: user } = useSelector((state: RootState) => state);

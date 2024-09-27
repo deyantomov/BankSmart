@@ -1,4 +1,4 @@
-import withNavigation from "../../layouts/withNavigation/withNavigation";
+import withNavigation from "../../hoc/withNavigation/withNavigation";
 import { Card } from "react-daisyui";
 
 function Transactions() {

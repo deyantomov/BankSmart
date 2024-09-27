@@ -1,5 +1,5 @@
 import { FiXCircle } from "react-icons/fi";
-import withNavigation from "../../layouts/withNavigation/withNavigation";
+import withNavigation from "../../hoc/withNavigation/withNavigation";
 
 function NotFound() {
   return (

@@ -3,7 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import useCreateAccount from "../../hooks/useCreateAccount";
-import withNavigation from "../../layouts/withNavigation/withNavigation";
+import withNavigation from "../../hoc/withNavigation/withNavigation";
 import { Select, Button } from "react-daisyui";
 import { FiArrowLeft } from "react-icons/fi";
 

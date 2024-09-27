@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Card, Input, Button } from "react-daisyui";
 import { register } from "../../routes/auth";
-import withNavigation from "../../layouts/withNavigation/withNavigation";
+import withNavigation from "../../hoc/withNavigation/withNavigation";
 
 function Register() {
   const [registerFormData, setRegisterFormData] = useState({

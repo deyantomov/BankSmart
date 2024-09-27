@@ -5,7 +5,7 @@ import useSaveUserData from "../../hooks/useSaveUserData";
 import useSaveUserAccounts from "../../hooks/useSaveUserAccounts";
 import useSaveUserTransactions from "../../hooks/useSaveUserTransactions";
 import { Card, Input, Button } from "react-daisyui";
-import withNavigation from "../../layouts/withNavigation/withNavigation";
+import withNavigation from "../../hoc/withNavigation/withNavigation";
 
 function Login() {
   const [loginFormData, setLoginFormData] = useState({

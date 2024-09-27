@@ -1,4 +1,4 @@
-import withNavigation from "../../layouts/withNavigation/withNavigation";
+import withNavigation from "../../hoc/withNavigation/withNavigation";
 import UserDetails from "../../components/tiles/UserDetails";
 import AccountTile from "../../components/tiles/AccountTile";
 import TransactionTile from "../../components/tiles/TransactionTile";

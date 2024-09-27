@@ -22,7 +22,7 @@ export const getUserData = async (email, tokenBearerEmail) => {
 export const getUserAccountData = async (email) => {
   const { accounts } = await User.findOne({ email });
 
-  if (!accounts || accounts.length === 0) return;
+  if (!accounts || accounts.length === 0) return [];
 
   const allAccounts = await Account.aggregate([
     {
@@ -54,7 +54,7 @@ export const getUserAccountData = async (email) => {
 export const getUserTransactionHistory = async (email) => {
   const { transactions } = await User.findOne({ email });
 
-  if (!transactions || transactions.length === 0) return;
+  if (!transactions || transactions.length === 0) return [];
   const allTransactions = [];
 
   for (const id of transactions) {

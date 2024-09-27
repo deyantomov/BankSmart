@@ -7,6 +7,7 @@ import Register from "./views/Register/Register";
 import Dashboard from "./views/Dashboard/Dashboard";
 import Protected from "./components/Protected/Protected";
 import Profile from "./views/Profile/Profile";
+import CreateAccount from "./views/CreateAccount/CreateAccount";
 import NotFound from "./views/NotFound/NotFound";
 
 function ProvidedApp() {
@@ -37,6 +38,14 @@ function App() {
         element={
           <Protected>
             <Profile />
+          </Protected>
+        }
+      />
+      <Route
+        path="/create-account"
+        element={
+          <Protected>
+            <CreateAccount />
           </Protected>
         }
       />

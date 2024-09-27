@@ -8,7 +8,7 @@ export default function TransactionTile() {
   );
 
   return (
-    <div className="flex flex-col gap-4 w-full h-auto px-8 py-4">
+    <div className="flex flex-col gap-4 w-full h-auto px-4 py-4">
       <div className="flex justify-between items-center w-full">
         <h1 className="p-4 text-3xl">Transactions</h1>
         <Button className="btn btn-ghost text-primary text-xl rounded-md">
@@ -16,7 +16,7 @@ export default function TransactionTile() {
         </Button>
       </div>
       <Table className="w-full text-xl">
-        <Table.Head className="bg-slate-200">
+        <Table.Head className="bg-slate-200 text-2xl">
           <span />
           <span>Type</span>
           <span>Amount</span>
@@ -24,7 +24,7 @@ export default function TransactionTile() {
         <Table.Body>
           {transactions.map((transaction, index) => (
             <Table.Row key={index} className={`${index % 2 !== 0 && "bg-slate-200"}`}>
-              <span>{index + 1}</span>
+              <span className="text-lg">{index + 1}</span>
               <span>
                 {transaction.type[0].toUpperCase() + transaction.type.slice(1)}
               </span>

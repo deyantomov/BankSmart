@@ -6,6 +6,7 @@ import Login from "./views/Login/Login";
 import Register from "./views/Register/Register";
 import Dashboard from "./views/Dashboard/Dashboard";
 import Protected from "./components/Protected/Protected";
+import Profile from "./views/Profile/Profile";
 import NotFound from "./views/NotFound/NotFound";
 
 function ProvidedApp() {
@@ -28,6 +29,14 @@ function App() {
         element={
           <Protected>
             <Dashboard />
+          </Protected>
+        }
+      />
+      <Route
+        path="/my-profile"
+        element={
+          <Protected>
+            <Profile />
           </Protected>
         }
       />

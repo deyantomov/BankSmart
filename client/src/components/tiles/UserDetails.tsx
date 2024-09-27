@@ -8,7 +8,7 @@ export default function UserDetails() {
   const { userData: user } = useSelector((state: RootState) => state);
 
   const handleViewProfile = () => {
-    navigate("/my-profile");
+    navigate("/profile");
   };
 
   return (

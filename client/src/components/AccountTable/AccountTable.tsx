@@ -36,7 +36,7 @@ export default function AccountTable({ accounts }: AccountTableProps) {
                 {account.type[0].toUpperCase().concat(account.type.slice(1))}
               </span>
               <span>{account.currency}</span>
-              <span>{account.balance}</span>
+              <span>{Number(account.balance.toFixed(2))}</span>
               <span>{new Date(account.createdAt).toLocaleDateString()}</span>
             </Table.Row>
           ))}

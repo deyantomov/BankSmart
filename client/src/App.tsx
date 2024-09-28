@@ -10,7 +10,7 @@ import Profile from "./views/Profile/Profile";
 import Accounts from "./views/Accounts/Accounts";
 import CreateAccount from "./views/CreateAccount/CreateAccount";
 import Transactions from "./views/Transactions/Transactions";
-import Deposit from "./views/Transactions/Deposit/Deposit";
+import Transaction from "./views/Transactions/Transaction/Transaction";
 import NotFound from "./views/NotFound/NotFound";
 
 function ProvidedApp() {
@@ -72,7 +72,23 @@ function App() {
         path="/deposit"
         element={
           <Protected>
-            <Deposit />
+            <Transaction />
+          </Protected>
+        }
+      />
+      <Route
+        path="/withdraw"
+        element={
+          <Protected>
+            <Transaction />
+          </Protected>
+        }
+      />
+      <Route
+        path="/transfer"
+        element={
+          <Protected>
+            <Transaction />
           </Protected>
         }
       />

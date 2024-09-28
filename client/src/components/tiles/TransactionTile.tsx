@@ -30,23 +30,23 @@ export default function TransactionTile() {
         <Table className="w-full text-xl">
           <Table.Head className="bg-slate-200 text-2xl">
             <span />
+            <span>Account ID</span>
             <span>Type</span>
             <span>Amount</span>
           </Table.Head>
           <Table.Body>
             {transactions.map((transaction: any, index: number) => {
               let rowStyle = "";
+              const isSending = user.accounts.includes(transaction.senderId as string);
 
               if (transaction.type === "deposit") {
                 rowStyle = "text-green-600";
               } else if (transaction.type === "withdrawal") {
                 rowStyle = "text-red-600";
               } else if (transaction.type === "transfer") {
-                rowStyle = user.accounts.includes(
-                  transaction.receiverId as string
-                )
-                  ? "text-green-600"
-                  : "text-red-600";
+                rowStyle = isSending ?
+                "text-red-600" :
+                "text-green-600"; 
               }
 
               return (
@@ -57,6 +57,7 @@ export default function TransactionTile() {
                   } ${rowStyle}`}
                 >
                   <span className="text-lg text-black">{index + 1}</span>
+                  <span>{transaction.accountId || (isSending ? transaction.senderId : transaction.receiverId)}</span>
                   <span>
                     {transaction.type[0].toUpperCase() +
                       transaction.type.slice(1)}

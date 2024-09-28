@@ -1,12 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import withNavigation from "../../hoc/withNavigation/withNavigation";
 import { Card, Button } from "react-daisyui";
 
 function Transactions() {
-  const {
-    transactionData: { transactions },
-  } = useSelector((state: RootState) => state);
+  const navigate = useNavigate();
+  const { transactions } = useSelector((state: RootState) => state.transactionData); 
   const { accounts } = useSelector((state: RootState) => state.userData);
 
   const deposits = transactions.filter(
@@ -19,18 +19,35 @@ function Transactions() {
     (transaction: any) => transaction.type === "transfer"
   );
 
+  const handleNavigateNewTransaction = (e: React.MouseEvent<HTMLButtonElement>) => {
+    navigate(`/${(e.target as HTMLButtonElement).value}`);
+  }
+
   return (
     <div className="w-full h-full p-4 text-xl">
       <h1 className="p-4 text-3xl">New transactions</h1>
       <div className="grid grid-cols-1 sm:grid-cols-3 w-full h-1/2 p-4 gap-8">
         <Card className="flex justify-center items-center bg-slate-200">
-          <Button className="btn btn-ghost w-1/3 text-xl">Deposit</Button>
+          <Button 
+            value="deposit"
+            onClick={handleNavigateNewTransaction}
+            className="btn btn-ghost w-1/3 text-xl"
+          >
+            Deposit</Button>
         </Card>
         <Card className="flex justify-center items-center bg-slate-200">
-          <Button className="btn btn-ghost w-1/3 text-xl">Withdraw</Button>
+          <Button
+            value="withdraw"
+            onClick={handleNavigateNewTransaction}
+            className="btn btn-ghost w-1/3 text-xl"
+          >Withdraw</Button>
         </Card>
         <Card className="flex justify-center items-center bg-slate-200">
-          <Button className="btn btn-ghost w-1/3 text-xl">Transfer</Button>
+          <Button
+            value="transfer"
+            onClick={handleNavigateNewTransaction}
+            className="btn btn-ghost w-1/3 text-xl"
+          >Transfer</Button>
         </Card>
       </div>
       <h1 className="p-4 text-3xl">Transaction history</h1>

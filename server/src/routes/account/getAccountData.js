@@ -5,7 +5,7 @@ import { getAccount } from "../../middleware/account/getAccount.js";
 const router = express.Router();
 
 router.get("/test", (req, res) => {
-  res.status(200).json("test ok: create new account");
+  res.status(200).json("test ok: get account data");
 });
 
 router.get("/", validateJWT, getAccount, async (req, res) => {

@@ -8,8 +8,8 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/", login, async (req, res) => {
-  if (req.token === "Invalid password") {
-    res.status(400).json({ message: req.token });
+  if (req.token === "Invalid email or password") {
+    return res.status(400).json({ message: req.token });
   }
   
   try {

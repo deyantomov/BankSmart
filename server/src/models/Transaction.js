@@ -22,6 +22,7 @@ const transactionSchema = new mongoose.Schema(
     },
     originalAmount: {
       type: Schema.Types.Decimal128,
+      required: true,
     },
     convertedAmount: {
       type: Schema.Types.Decimal128,

@@ -2,7 +2,7 @@ import { getAccountData } from "../../services/account.service.js";
 
 export async function getAccount(req, res, next) {
   const { user } = req;
-  const { accountId } = req.body;
+  const { accountId } = req.query;
 
   if (!accountId) {
     return res.status(400).json({ message: "Account ID is required" });
@@ -10,6 +10,7 @@ export async function getAccount(req, res, next) {
 
   try {
     const accountData = await getAccountData(accountId, user.email); //  pass the email to check if the holder of the account is the holder of the token
+
 
     if (!accountData) {
       return res.status(500).json({ message: "Couldn't find account " });

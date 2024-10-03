@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import User from "../models/User.js";
 import Account from "../models/Account.js";
 import generateUniqueAccountId from "../helpers/generateAccountId.js";
+import logger, { loggerEnum } from "../helpers/logger.js";
 
 export const createNewAccount = async (email, accountType, currency) => {
   let accountId = "";
@@ -9,7 +10,6 @@ export const createNewAccount = async (email, accountType, currency) => {
 
   try {
     accountId = await generateUniqueAccountId(currency);
-    // console.log(accountId);
 
     session.startTransaction();
 
@@ -33,6 +33,7 @@ export const createNewAccount = async (email, accountType, currency) => {
       { session }
     );
 
+    await logger(loggerEnum.new, `Account ${accountId} created`);
     await session.commitTransaction();
   } catch (err) {
     await session.abortTransaction();

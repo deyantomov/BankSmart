@@ -2,8 +2,6 @@ import { Drawer, Menu, Button } from "react-daisyui";
 import { FiHome, FiBarChart2, FiDollarSign, FiTrendingUp } from "react-icons/fi";
 
 export default function Sidebar({ isOpen, toggleSidebar }: { isOpen: boolean, toggleSidebar: () => void }) {
-  console.log("Sidebar received isOpen:", isOpen);
-
   return (
     <Drawer
       open={isOpen}

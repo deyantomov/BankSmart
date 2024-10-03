@@ -1,21 +1,15 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Account from "../models/Account.js";
-import generateAccountId from "../helpers/generateAccountId.js";
+import generateUniqueAccountId from "../helpers/generateAccountId.js";
 
 export const createNewAccount = async (email, accountType, currency) => {
   let accountId = "";
   const session = await mongoose.startSession();
 
   try {
-    do {
-      accountId = generateAccountId(currency);
-      const isExistingAccount = await Account.findOne({ accountId });
-
-      if (!isExistingAccount) {
-        break;
-      }
-    } while (true);
+    accountId = await generateUniqueAccountId(currency);
+    // console.log(accountId);
 
     session.startTransaction();
 

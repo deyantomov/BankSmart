@@ -2,6 +2,13 @@ import User from "../models/User.js";
 import Account from "../models/Account.js";
 import Transaction from "../models/Transaction.js";
 
+/**
+ * Get user data.
+ * 
+ * @param {string} email 
+ * @param {string} tokenBearerEmail 
+ * @returns {Promise<User>}
+ */
 export const getUserData = async (email, tokenBearerEmail) => {
   const user = await User.findOne(
     { email },
@@ -19,6 +26,13 @@ export const getUserData = async (email, tokenBearerEmail) => {
   return user;
 };
 
+/**
+ * Get all user accounts.
+ * 
+ * @async
+ * @param {string} email 
+ * @returns {Array<Account>}
+ */
 export const getUserAccountData = async (email) => {
   const { accounts } = await User.findOne({ email });
 
@@ -51,6 +65,13 @@ export const getUserAccountData = async (email) => {
   return allAccounts;
 };
 
+/**
+ * Get all user transactions
+ * 
+ * @async
+ * @param {string} email 
+ * @returns {Array<Transaction>}
+ */
 export const getUserTransactionHistory = async (email) => {
   const { transactions } = await User.findOne({ email });
 

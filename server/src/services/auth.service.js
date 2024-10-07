@@ -2,6 +2,15 @@ import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import { generateToken } from "./token.service.js";
 
+/**
+ * Hashes the plain text-password and saves the account to the database.
+ *
+ * @param {string} email
+ * @param {string} password
+ * @param {string} firstName
+ * @param {string} lastName
+ * @returns {boolean}
+ */
 export const registerUser = async (email, password, firstName, lastName) => {
   try {
     const passwordHash = await bcrypt.hash(password, 10);
@@ -21,6 +30,14 @@ export const registerUser = async (email, password, firstName, lastName) => {
   return true;
 };
 
+/**
+ * Attempt to find a user by email and compare passwords.
+ * If both requirements are met generate access and refresh tokens held by the user by using the generateToken service and return them.
+ *
+ * @param {string} email
+ * @param {string} password
+ * @returns {{ accessToken: string, refreshToken: string }}
+ */
 export const loginUser = async (email, password) => {
   try {
     const user = await User.findOne({ email });

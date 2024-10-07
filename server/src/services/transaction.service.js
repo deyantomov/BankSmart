@@ -4,6 +4,16 @@ import Account from "../models/Account.js";
 import Transaction from "../models/Transaction.js";
 import convertCurrency from "../helpers/convertCurrency.js";
 
+/**
+ * Transfer funds if the sender has sufficient funds. Converts the amount if the currencies between the two accounts are different.
+ * Save transaction history to transactions collection.
+ * 
+ * @async
+ * @param {string} senderId 
+ * @param {string} receiverId 
+ * @param {number} amount 
+ * @returns {Promise<boolean>}
+ */
 export const transferFunds = async (senderId, receiverId, amount) => {
   const session = await mongoose.startSession();
 
@@ -119,6 +129,15 @@ export const transferFunds = async (senderId, receiverId, amount) => {
   return true;
 };
 
+/**
+ * Deposit funds to an account. Save transaction history to transactions collection.
+ * 
+ * @async
+ * @param {string} accountId 
+ * @param {number} amount 
+ * @param {string} tokenBearerEmail 
+ * @returns {Promise<boolean>}
+ */
 export const depositFunds = async (accountId, amount, tokenBearerEmail) => {
   const { holder } = await Account.findOne({ accountId });
 
@@ -172,6 +191,15 @@ export const depositFunds = async (accountId, amount, tokenBearerEmail) => {
   return true;
 };
 
+/**
+ * Withdraw funds from account if it has sufficient balance. Save transaction history to transactions collection.
+ * 
+ * @async
+ * @param {string} accountId 
+ * @param {number} amount 
+ * @param {string} tokenBearerEmail 
+ * @returns {Promise<boolean>}
+ */
 export const withdrawFunds = async (accountId, amount, tokenBearerEmail) => {
   const { holder } = await Account.findOne({ accountId });
 

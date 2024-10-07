@@ -4,6 +4,15 @@ import Account from "../models/Account.js";
 import generateUniqueAccountId from "../helpers/generateAccountId.js";
 import logger, { loggerEnum } from "../helpers/logger.js";
 
+/**
+ * Create a new account held by the given email of a registered user and update their accounts array to hold the account id.
+ *
+ * @async
+ * @param {string} email
+ * @param {string} accountType
+ * @param {string} currency
+ * @returns {Promise<void>}
+ */
 export const createNewAccount = async (email, accountType, currency) => {
   let accountId = "";
   const session = await mongoose.startSession();
@@ -45,6 +54,15 @@ export const createNewAccount = async (email, accountType, currency) => {
   return accountId;
 };
 
+/**
+ * Fetch account by id and throw an error if anyone else than the holder requests the information.
+ * Returns the account with the Decimal128 balance field converted to double, and the _id and __v fields projected out.
+ *
+ * @async
+ * @param {string} accountId
+ * @param {string} email
+ * @returns {Promise<Account>}
+ */
 export const getAccountData = async (accountId, email) => {
   const { holder } = await Account.findOne({ accountId });
 

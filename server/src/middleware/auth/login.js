@@ -8,13 +8,16 @@ export async function login(req, res, next) {
   }
 
   try {
-    const token = await loginUser(email, password);
+    const { accessToken, refreshToken } = await loginUser(email, password);
 
-    req.token = token;
+    req.accessToken = accessToken;
+    req.refreshToken = refreshToken;
     next();
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Internal server error", err: err.message });
+    if ((err.message = "Invalid email or password")) {
+      return res.status(401).json({ message: err.message });
+    }
+
+    return res.status(500).json({ message: err.message });
   }
 }

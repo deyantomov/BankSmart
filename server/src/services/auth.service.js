@@ -26,18 +26,18 @@ export const loginUser = async (email, password) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return "Invalid email or password";
+      throw new Error("Invalid email or password");
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (isValidPassword) {
-      const token = generateToken(email);
-      return token;
+      const { accessToken, refreshToken } = generateToken(email);
+      return { accessToken, refreshToken };
     } else {
-      return "Invalid email or password";
+      throw new Error("Invalid email or password");
     }
   } catch (err) {
-    throw new Error("An error occurred while trying to log in");
+    throw new Error(err.message);
   }
 };

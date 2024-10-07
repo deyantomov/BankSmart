@@ -1,6 +1,7 @@
 import express from "express";
 import RegisterRouter from "./auth/register.js";
 import LoginRouter from "./auth/login.js";
+import RefreshJWTRouter from "./auth/refresh.js"
 import GetUserDataRouter from "./user/getUserData.js";
 import GetUserAccountsRouter from "./user/getUserAccounts.js"
 import GetUserTransactionsRouter from "./user/getUserTransactions.js";
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.use("/register", RegisterRouter);
 router.use("/login", LoginRouter);
+router.use("/refreshToken", RefreshJWTRouter);
 router.use("/getUserData", GetUserDataRouter);
 router.use("/getUserAccounts", GetUserAccountsRouter); 
 router.use("/getUserTransactions", GetUserTransactionsRouter); 
